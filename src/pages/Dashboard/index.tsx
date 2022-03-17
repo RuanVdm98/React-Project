@@ -1,6 +1,6 @@
 import React, { useState, useEffect, FormEvent } from 'react'
 import { FiChevronRight } from 'react-icons/fi'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import api from '../../services/api'
 import { fetchRepo } from '../../services/api'
 import { useQuery } from 'react-query'
@@ -20,6 +20,7 @@ interface Repository {
 }
 
 const Dashboard: React.FC = () => {
+	const history = useHistory();
   const [newRepo, setNewRepo] = useState('')
   const [inputError, setInputError] = useState('')
 
@@ -89,11 +90,19 @@ const Dashboard: React.FC = () => {
     }
   }
 
+  function logout() {
+	  window.localStorage.removeItem('loginInfo');
+	  history.push('/');
+  }
+
   return (
     <>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <img src={logoImg} alt="Github Explorer" />
-        <button>Dark/Light</button>
+		<div>
+			<button>Dark/Light</button>
+			<button onClick={logout}>Logout</button>
+		</div>
       </div>
       <Title>Explore Repositries on Github</Title>
 
